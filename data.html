@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Comments – stg_honnavar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a0a0a;
+    color: #e8e8e8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #1a0a0a 0%, #2d0d0d 50%, #1a0a0a 100%);
+    border-bottom: 1px solid #cc0000;
+    padding: 24px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  header p {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 4px;
+  }
+  .stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .stat {
+    background: rgba(204,0,0,0.15);
+    border: 1px solid rgba(204,0,0,0.3);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 0.75rem;
+    color: #ff6b6b;
+  }
+  .search-bar {
+    padding: 14px 16px;
+    background: #111;
+    border-bottom: 1px solid #1e1e1e;
+    position: sticky;
+    top: 88px;
+    z-index: 99;
+  }
+  .search-bar input {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 9px 14px;
+    color: #e8e8e8;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar input:focus { border-color: #cc0000; }
+  .search-bar input::placeholder { color: #555; }
+  .comment-list {
+    padding: 12px 16px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #161616;
+    transition: background 0.15s;
+  }
+  .comment:hover { background: #111; border-radius: 8px; padding-left: 8px; }
+  .comment-num {
+    min-width: 32px;
+    height: 32px;
+    background: #1a0000;
+    border: 1px solid #cc0000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #ff4444;
+    flex-shrink: 0;
+  }
+  .comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #cc0000, #ff6600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .comment-body { flex: 1; }
+  .comment-username {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    display: inline;
+  }
+  .comment-time {
+    font-size: 0.72rem;
+    color: #555;
+    margin-left: 8px;
+  }
+  .comment-text {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .hidden { display: none !important; }
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: #555;
+    font-size: 0.9rem;
+    display: none;
+  }
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #333;
+    font-size: 0.75rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📸 @stg_honnavar — Comments</h1>
+  <p>RCB vs Gujarat Titans · Instagram Post</p>
+  <div class="stats">
+    <span class="stat">🗨️ 112 Comments</span>
+    <span class="stat">❤️ RCB Fan Post</span>
+    <span class="stat">⏱️ 4 weeks ago</span>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="🔍 Search by username or comment..." oninput="filterComments()" />
+</div>
+
+<div class="comment-list" id="commentList">
+</div>
+
+<p class="no-results" id="noResults">No comments found.</p>
+
+<footer>Total: 112 comments extracted from @stg_honnavar's Instagram post</footer>
+
+<script>
+const comments = [
+  { id: 1,  user: "al__maz06",               text: "RCB- ❤️" },
+  { id: 2,  user: "ramu_mesta09",             text: "Gujrat Titans" },
+  { id: 3,  user: "farhan_khan_1765",         text: "RCB 🔥" },
+  { id: 4,  user: "amruthanaik28",            text: "GT" },
+  { id: 5,  user: "ig_rodrigues.benston",     text: "Rcb ❤️🔥" },
+  { id: 6,  user: "adarsh_mesta",             text: "Royal Challengers Bangalore 🙌" },
+  { id: 7,  user: "br_rds_727",               text: "RCB" },
+  { id: 8,  user: "kevin_fds_",               text: "RCB ❤️🔥" },
+  { id: 9,  user: "joslinerdz",               text: "RCB" },
+  { id: 10, user: "rohan_tandel_007",         text: "RCB 🫀" },
+  { id: 11, user: "estan_rds_601",            text: "R c b 🔥🔥" },
+  { id: 12, user: "suhasmesta",               text: "RCB 🏆🏆" },
+  { id: 13, user: "dharma.naik",              text: "Royal challengers Bangalore will lift the cup 2026" },
+  { id: 14, user: "pavitra_parameshwar",      text: "RCB ❤️" },
+  { id: 15, user: "naiknagendra9222023",      text: "Rcb" },
+  { id: 16, user: "yasee__n_official_07",     text: "RCB 🔥" },
+  { id: 17, user: "prakash.gouda.9047",       text: "Rcb" },
+  { id: 18, user: "pajju__0519",              text: "RCB ❤️🔥" },
+  { id: 19, user: "lopes_ivan",               text: "RCB ❤️" },
+  { id: 20, user: "odd_prani",                text: "Champion 🏆 rcb" },
+  { id: 21, user: "santhosh1395",             text: "Rcb" },
+  { id: 22, user: "pajju_rdz",                text: "Rcb" },
+  { id: 23, user: "sahana_d_shet11",          text: "Rcb" },
+  { id: 24, user: "meghana_naik_1234",        text: "GT 🔥" },
+  { id: 25, user: "call_me_shivu_naik_47",    text: "RCB ❤️" },
+  { id: 26, user: "floweryy8749",             text: "RCB 🩷" },
+  { id: 27, user: "maruti9887",               text: "Rcb" },
+  { id: 28, user: "m4_marco_0",               text: "RCB ❤️" },
+  { id: 29, user: "jyoti.g.mesta",            text: "RCB 🏆" },
+  { id: 30, user: "sharadamba_travels",       text: "Rcb 🔥🔥🔥🔥🔥" },
+  { id: 31, user: "felicia_.lopez",           text: "RCB ❤️🔥" },
+  { id: 32, user: "_____pritika_____",        text: "Rcb" },
+  { id: 33, user: "fiona_fernandes_",         text: "RCB 🙌" },
+  { id: 34, user: "am_it6751",                text: "Royal challengers Bangalore" },
+  { id: 35, user: "udayhonnavar",             text: "RCB" },
+  { id: 36, user: "deepu_mn_ka_47",           text: "Rcb 🔥🔥" },
+  { id: 37, user: "udayhonnavar",             text: "RCB" },
+  { id: 38, user: "udayhonnavar",             text: "RCB" },
+  { id: 39, user: "kartik_naik.62",           text: "Royal challengers Bangalore... ❤️🔥🔥🔥" },
+  { id: 40, user: "anishdsouza8",             text: "RCB" },
+  { id: 41, user: "estanrodrigues",           text: "R c b" },
+  { id: 42, user: "priyanka.nayakaa",         text: "RCB" },
+  { id: 43, user: "jais.on300",               text: "R c b 🔥🔥" },
+  { id: 44, user: "abhi_shet15",              text: "Rcb" },
+  { id: 45, user: "darshan_bandekar_07",      text: "GT" },
+  { id: 46, user: "mohan_naik81",             text: "RCB ❤️" },
+  { id: 47, user: "sachin_mn_",               text: "RCB #ee sala cup namdu ❤️" },
+  { id: 48, user: "sachin_mn_",               text: "Champion" },
+  { id: 49, user: "mr___salehittal",          text: "Rcb ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️🔥" },
+  { id: 50, user: "pranam_panth",             text: "RCB brother" },
+  { id: 51, user: "kandel7457",               text: "Gujarat taitan" },
+  { id: 52, user: "__.vicxy.__",              text: "GT 🩶" },
+  { id: 53, user: "shara.thshet1",            text: "Rcb ❤️" },
+  { id: 54, user: "bharat_shet_10",           text: "Royal challengers Bangalore win" },
+  { id: 55, user: "bharat_shet_10",           text: "RCB win" },
+  { id: 56, user: "jacku373",                 text: "R c b 🔥" },
+  { id: 57, user: "afridi_shk55",             text: "RCB 🙈" },
+  { id: 58, user: "sh_ekar4321",              text: "Gt" },
+  { id: 59, user: "d_o_n_a_l_d__d_i_a_s",   text: "@royalchallengers.bengaluru ❤️ ESCN 🏆🏆" },
+  { id: 60, user: "estan_rds_601",            text: "Royal challengers bangalore" },
+  { id: 61, user: "arsen.rds.07",             text: "Rcb 🔥" },
+  { id: 62, user: "_nk_ranjit_",             text: "@gujarat_titans 🥳🤩" },
+  { id: 63, user: "kishann__47",              text: "Gt 🙌" },
+  { id: 64, user: "gouda2043",                text: "Rcb" },
+  { id: 65, user: "mr_tilak_26",              text: "RCB 🙌" },
+  { id: 66, user: "_tejas_nk",               text: "Rcb ❤️" },
+  { id: 67, user: "pavan_m_hnr",              text: "RCB ALWAYS 🔥❤️" },
+  { id: 68, user: "mr.omkar.69",              text: "RCB ❤️" },
+  { id: 69, user: "cellujeet",                text: "Rcb 🔥" },
+  { id: 70, user: "akshay_hnr_47",            text: "RCB" },
+  { id: 71, user: "_mr._.puneet_33",         text: "Rcb ✨" },
+  { id: 72, user: "pratham_21____",           text: "Champion ✨" },
+  { id: 73, user: "mahendranaik95",           text: "RCB ❤️" },
+  { id: 74, user: "__puneet____33",           text: "GT wins" },
+  { id: 75, user: "justtciy_.02",             text: "RCB ❤️" },
+  { id: 76, user: "akshay_nk_47",             text: "Rcb" },
+  { id: 77, user: "shree_gouda_77",           text: "Gt win" },
+  { id: 78, user: "darshan_naik.s",           text: "Royal challengers Bangalore ❤️" },
+  { id: 79, user: "ds.32276",                 text: "RCB ❤️" },
+  { id: 80, user: "praveen_raj_kohli_16_17_one8", text: "RCB 💛❤️" },
+  { id: 81, user: "dinu_kumta",               text: "RCB ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️" },
+  { id: 82, user: "subbu_itsmehonnavar",      text: "RCB ❤️" },
+  { id: 83, user: "krati.vinu",               text: "RCB" },
+  { id: 84, user: "_prajwal__gunagi_",        text: "Esala nu Cup Namde 🏆" },
+  { id: 85, user: "__unique__guy.__09",       text: "RCB ❤️" },
+  { id: 86, user: "marutigouda_33",           text: "RCB ❤️" },
+  { id: 87, user: "revu__nk",                 text: "AAAAAAARRRRRRRRRRRR CCCEEEEEEEEEEEEEEE BEEEEEEEE 🔵🏆❤️ @royalchallengers.bengaluru" },
+  { id: 88, user: "darshan_0527",             text: "GT will win The Trophy 🏆" },
+  { id: 89, user: "call_me_gochi",            text: "Rcb" },
+  { id: 90, user: "sanket_revankar75",        text: "Rcb 🔥" },
+  { id: 91, user: "_jaggu._14",              text: "Rcb 🔥" },
+  { id: 92, user: "sachinnaik9752",           text: "RCB ❤️" },
+  { id: 93, user: "jaison_pinto_18",          text: "RCB @royalchallengers.bengaluru ❤️" },
+  { id: 94, user: "__dxrshan__",              text: "RCB 🙌" },
+  { id: 95, user: "naveen_naik_0707",         text: "GT" },
+  { id: 96, user: "abhay_62s",                text: "RCB ❤️" },
+  { id: 97, user: "fernsadi",                 text: "Gujarat Titans" },
+  { id: 98, user: "nikitashanbhag_555",       text: "RCB" },
+  { id: 99, user: "__ag_ugramm.__",           text: "Gujrat" },
+  { id: 100, user: "nk_manu_1234",            text: "Rcb" },
+  { id: 101, user: "n_o_c_u_",               text: "RCB 😍😍🔥" },
+  { id: 102, user: "_drshn_33",              text: "Rcb ❤️🔥" },
+  { id: 103, user: "insta_user_pradeepmesta_", text: "One team One Nation one dream win or lose forever RCB ❤️💛" },
+  { id: 104, user: "__puneet____33",          text: "GT wins" },
+  { id: 105, user: "justtciy_.02",            text: "RCB ❤️" },
+  { id: 106, user: "akshay_nk_47",            text: "Rcb" },
+  { id: 107, user: "shree_gouda_77",          text: "Gt win" },
+  { id: 108, user: "darshan_naik.s",          text: "Royal challengers Bangalore ❤️" },
+  { id: 109, user: "ds.32276",                text: "RCB ❤️" },
+  { id: 110, user: "subbu_itsmehonnavar",     text: "RCB ❤️" },
+  { id: 111, user: "krati.vinu",              text: "RCB" },
+  { id: 112, user: "naveen_naik_0707",        text: "GT" },
+];
+
+function getInitials(name) {
+  return name.replace(/[^a-zA-Z]/g, '').substring(0, 2).toUpperCase() || '??';
+}
+
+function renderComments(list) {
+  const container = document.getElementById('commentList');
+  const noResults = document.getElementById('noResults');
+  container.innerHTML = '';
+  if (list.length === 0) {
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  list.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'comment';
+    div.innerHTML = `
+      <div class="comment-num">${c.id}</div>
+      <div class="comment-avatar">${getInitials(c.user)}</div>
+      <div class="comment-body">
+        <span class="comment-username">@${c.user}</span>
+        <span class="comment-time">4w</span>
+        <div class="comment-text">${c.text}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function filterComments() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = comments.filter(c =>
+    c.user.toLowerCase().includes(q) || c.text.toLowerCase().includes(q)
+  );
+  renderComments(filtered);
+}
+
+renderComments(comments);
+</script>
+</body>
+</html>
